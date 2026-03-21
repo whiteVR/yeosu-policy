@@ -80,7 +80,7 @@
       position: relative;
     }
 
-    /* ★★ [정중앙 정렬] 공통 슬라이더 컨테이너 ★★ */
+    /* 공통 슬라이더 컨테이너 */
     .slider-slide, .slider-cube, .slider-fade, .slider-auto {
       position: relative;
       border-radius: 16px;
@@ -88,6 +88,9 @@
       aspect-ratio: 9/16;
       max-height: 75vh;
       background: #1a2a3a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     /* 효과 1: 슬라이드 */
@@ -96,28 +99,23 @@
       transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
       height: 100%;
       width: 100%;
-      align-items: center; /* ★★ [정중앙 - 세로] ★★ */
     }
 
     .slider-slide .slide-item {
       min-width: 100%;
       height: 100%;
       display: flex;
-      align-items: center;     /* ★★ [정중앙 - 세로] ★★ */
-      justify-content: center; /* ★★ [정중앙 - 가로] ★★ */
+      align-items: center;
+      justify-content: center;
     }
 
     .slider-slide .slide-item img {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      display: block;
-      margin: 0 auto; /* ★★ [정중앙 - 가로 보조] ★★ */
     }
 
-    /* ★★ [큐브 회전속도] 아래 1.5s 값을 변경하세요 (예: 2s = 더 느리게, 0.8s = 더 빠르게) ★★ */
+    /* 효과 2: 3D 큐브 - 천천히 회전 */
     .slider-cube {
       perspective: 1200px;
     }
@@ -127,7 +125,7 @@
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* ★★ [큐브 회전속도] 1.5s를 변경 ★★ */
+      transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .cube-face {
@@ -136,30 +134,27 @@
       height: 100%;
       backface-visibility: hidden;
       display: flex;
-      align-items: center;     /* ★★ [정중앙 - 세로] ★★ */
-      justify-content: center; /* ★★ [정중앙 - 가로] ★★ */
+      align-items: center;
+      justify-content: center;
     }
 
     .cube-face img {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      display: block;
     }
 
-    /* ★★ [페이드 전환속도] 아래 1.5s 값을 변경하세요 (예: 2.5s = 더 느리게, 0.5s = 더 빠르게) ★★ */
+    /* 효과 3: 페이드 - 더 길게 */
     .slider-fade .fade-item {
       position: absolute;
       top: 0; left: 0;
       width: 100%;
       height: 100%;
       opacity: 0;
-      transition: opacity 1.5s ease; /* ★★ [페이드 전환속도] 1.5s를 변경 ★★ */
+      transition: opacity 1.5s ease;
       display: flex;
-      align-items: center;     /* ★★ [정중앙 - 세로] ★★ */
-      justify-content: center; /* ★★ [정중앙 - 가로] ★★ */
+      align-items: center;
+      justify-content: center;
     }
 
     .slider-fade .fade-item.active {
@@ -167,15 +162,12 @@
     }
 
     .slider-fade .fade-item img {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      display: block;
     }
 
-    /* ★★ [자동재생 전환속도] 아래 1.2s 값을 변경하세요 ★★ */
+    /* 효과 4: 자동재생 */
     .slider-auto .auto-item {
       position: absolute;
       top: 0; left: 0;
@@ -183,10 +175,10 @@
       height: 100%;
       opacity: 0;
       transform: scale(1.03);
-      transition: opacity 1.2s ease, transform 5s ease; /* ★★ [자동재생 전환속도] 1.2s를 변경 ★★ */
+      transition: opacity 1.2s ease, transform 5s ease;
       display: flex;
-      align-items: center;     /* ★★ [정중앙 - 세로] ★★ */
-      justify-content: center; /* ★★ [정중앙 - 가로] ★★ */
+      align-items: center;
+      justify-content: center;
     }
 
     .slider-auto .auto-item.active {
@@ -195,12 +187,9 @@
     }
 
     .slider-auto .auto-item img {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      display: block;
     }
 
     .auto-progress {
@@ -436,76 +425,33 @@
       startSlideAuto();
     }
 
-    // ===== 슬라이드 (1→2→3→4→1 자연스러운 루프) =====
-    var isSlideAnimating = false;
-
+    // ===== 슬라이드 (연속 자동 재생) =====
     function buildSlide() {
       var track = document.getElementById('slide-track');
-      // 마지막에 첫 번째 이미지를 복제하여 자연스러운 루프 구현
-      var html = IMAGES.map(function(src) {
+      track.innerHTML = IMAGES.map(function(src) {
         return '<div class="slide-item"><img src="' + src + '"></div>';
       }).join('');
-      // 첫 번째 이미지를 끝에 추가 (루프용)
-      html += '<div class="slide-item"><img src="' + IMAGES[0] + '"></div>';
-      track.innerHTML = html;
       document.getElementById('slide-total').textContent = total;
     }
 
     function slideNav(dir) {
-      if (isSlideAnimating) return;
-      var track = document.getElementById('slide-track');
-
-      if (dir === 1) {
-        // 앞으로 이동
-        currentSlide++;
-        track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
-        track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
-
-        if (currentSlide === total) {
-          // 마지막 복제 슬라이드에 도달하면 → 순간이동으로 처음으로
-          isSlideAnimating = true;
-          setTimeout(function() {
-            track.style.transition = 'none';
-            currentSlide = 0;
-            track.style.transform = 'translateX(0)';
-            isSlideAnimating = false;
-          }, 520);
-        }
-      } else {
-        // 뒤로 이동
-        if (currentSlide === 0) {
-          // 처음에서 뒤로 가면 → 순간이동으로 마지막 복제 위치로 간 후 애니메이션
-          isSlideAnimating = true;
-          track.style.transition = 'none';
-          currentSlide = total;
-          track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
-          setTimeout(function() {
-            currentSlide = total - 1;
-            track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
-            track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
-            isSlideAnimating = false;
-          }, 30);
-        } else {
-          currentSlide--;
-          track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
-          track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
-        }
-      }
-
-      var displaySlide = currentSlide >= total ? 0 : currentSlide;
-      document.getElementById('slide-counter').textContent = displaySlide + 1;
-      updateIndicators(displaySlide);
+      currentSlide = (currentSlide + dir + total) % total;
+      document.getElementById('slide-track').style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+      document.getElementById('slide-counter').textContent = currentSlide + 1;
+      updateIndicators();
       resetSlideAuto();
     }
 
-    /* ★★ [슬라이드 자동재생 시간] 아래 4000 값을 변경하세요 (4000 = 4초) ★★ */
     function startSlideAuto() {
       stopSlideAuto();
       slideAutoTimer = setInterval(function() {
         if (currentEffect === 'slide') {
-          slideNav(1);
+          currentSlide = (currentSlide + 1) % total;
+          document.getElementById('slide-track').style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+          document.getElementById('slide-counter').textContent = currentSlide + 1;
+          updateIndicators();
         }
-      }, 4000); /* ★★ [슬라이드 자동재생 시간] 4000을 변경 (밀리초 단위) ★★ */
+      }, 4000);
     }
 
     function stopSlideAuto() {
@@ -517,7 +463,7 @@
       startSlideAuto();
     }
 
-    // ===== 3D 큐브 =====
+    // ===== 3D 큐브 (천천히 회전) =====
     function buildCube() {
       var scene = document.getElementById('cube-scene');
       var container = document.getElementById('slider-cube');
@@ -537,7 +483,7 @@
       updateIndicators();
     }
 
-    // ===== 페이드 =====
+    // ===== 페이드 (느린 전환) =====
     function buildFade() {
       var container = document.getElementById('slider-fade');
       var navBtns = container.querySelectorAll('.nav-btn');
@@ -578,8 +524,7 @@
 
     function startAuto() {
       stopAuto();
-      /* ★★ [자동재생 대기시간] 아래 4000 값을 변경하세요 (4000 = 4초마다 전환) ★★ */
-      var duration = 4000; /* ★★ [자동재생 대기시간] 4000을 변경 ★★ */
+      var duration = 4000;
       var progressEl = document.getElementById('auto-progress');
       progressEl.style.transition = 'none';
       progressEl.style.width = '0%';
@@ -625,9 +570,7 @@
       document.getElementById('slider-auto').classList.toggle('hidden', effect !== 'auto');
 
       if (effect === 'slide') {
-        var track = document.getElementById('slide-track');
-        track.style.transition = 'none';
-        track.style.transform = 'translateX(0)';
+        document.getElementById('slide-track').style.transform = 'translateX(0)';
         document.getElementById('slide-counter').textContent = 1;
         startSlideAuto();
       } else if (effect === 'cube') {
@@ -651,12 +594,10 @@
     }
 
     // ===== 인디케이터 =====
-    function updateIndicators(overrideIndex) {
-      var activeIndex = (overrideIndex !== undefined) ? overrideIndex : currentSlide;
-      if (activeIndex >= total) activeIndex = 0;
+    function updateIndicators() {
       var html = '';
       for (var i = 0; i < total; i++) {
-        html += '<div class="dot ' + (i === activeIndex ? 'active' : '') + '" onclick="goToSlide(' + i + ')"></div>';
+        html += '<div class="dot ' + (i === currentSlide ? 'active' : '') + '" onclick="goToSlide(' + i + ')"></div>';
       }
       document.getElementById('indicators').innerHTML = html;
     }
@@ -666,9 +607,7 @@
       currentSlide = index;
 
       if (currentEffect === 'slide') {
-        var track = document.getElementById('slide-track');
-        track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
-        track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+        document.getElementById('slide-track').style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
         document.getElementById('slide-counter').textContent = currentSlide + 1;
         resetSlideAuto();
       } else if (currentEffect === 'cube') {
