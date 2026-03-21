@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>정책 공약 - 이미지 슬라이더</title>
+  <title>여수 관광4.0 - 그랜드스트림 체류형 관광도시 대전환</title>
+
+  <!-- OG 태그 -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="여수 관광4.0 - 그랜드스트림" />
+  <meta property="og:description" content="체류형 관광도시 대전환 - 여수시장 예비후보 백인숙" />
+  <meta property="og:image" content="https://i.imgur.com/v7wky3p.png" />
+  <meta property="og:image:width" content="1088" />
+  <meta property="og:image:height" content="570" />
+  <meta property="og:url" content="https://blog.naver.com/bik6107/224213979959" />
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 
@@ -36,7 +46,6 @@
       margin-top: 4px;
     }
 
-    /* 효과 선택 탭 */
     .effect-tabs {
       display: flex;
       justify-content: center;
@@ -64,7 +73,6 @@
       border-color: #fee500;
     }
 
-    /* 슬라이더 컨테이너 */
     .slider-wrapper {
       max-width: 500px;
       margin: 0 auto;
@@ -72,7 +80,7 @@
       position: relative;
     }
 
-    /* ========== 효과 1: 기본 슬라이드 ========== */
+    /* 효과 1: 슬라이드 */
     .slider-slide {
       position: relative;
       overflow: hidden;
@@ -99,7 +107,7 @@
       background: #1a2a3a;
     }
 
-    /* ========== 효과 2: 3D 큐브 회전 ========== */
+    /* 효과 2: 3D 큐브 */
     .slider-cube {
       perspective: 1200px;
       position: relative;
@@ -131,7 +139,7 @@
       background: #1a2a3a;
     }
 
-    /* ========== 효과 3: 페이드 ========== */
+    /* 효과 3: 페이드 */
     .slider-fade {
       position: relative;
       border-radius: 16px;
@@ -160,7 +168,7 @@
       background: #1a2a3a;
     }
 
-    /* ========== 효과 4: 자동 재생 슬라이드쇼 ========== */
+    /* 효과 4: 자동재생 */
     .slider-auto {
       position: relative;
       border-radius: 16px;
@@ -201,7 +209,7 @@
       z-index: 10;
     }
 
-    /* 공통 네비게이션 */
+    /* 네비게이션 */
     .nav-btn {
       position: absolute;
       top: 50%;
@@ -225,7 +233,6 @@
     .nav-btn.prev { left: 8px; }
     .nav-btn.next { right: 8px; }
 
-    /* 인디케이터 */
     .indicators {
       display: flex;
       justify-content: center;
@@ -248,7 +255,6 @@
       border-radius: 4px;
     }
 
-    /* 슬라이드 카운터 */
     .counter {
       position: absolute;
       top: 12px;
@@ -261,7 +267,6 @@
       z-index: 10;
     }
 
-    /* 하단 버튼 */
     .btn-area {
       max-width: 500px;
       margin: 16px auto 0;
@@ -310,7 +315,6 @@
 
     .kakao-btn:hover { background: #f0d900; }
 
-    /* 숨기기 */
     .hidden { display: none !important; }
   </style>
 </head>
@@ -321,7 +325,6 @@
     <p>좌우로 넘기거나 효과를 선택해보세요</p>
   </div>
 
-  <!-- 효과 선택 -->
   <div class="effect-tabs">
     <button class="tab-btn active" onclick="switchEffect('slide')">슬라이드</button>
     <button class="tab-btn" onclick="switchEffect('cube')">3D 큐브</button>
@@ -330,7 +333,6 @@
   </div>
 
   <div class="slider-wrapper">
-
     <!-- 효과 1: 슬라이드 -->
     <div class="slider-slide" id="slider-slide">
       <div class="counter"><span id="slide-counter">1</span> / <span id="slide-total"></span></div>
@@ -359,13 +361,10 @@
       <div class="counter"><span id="auto-counter">1</span> / <span id="auto-total"></span></div>
       <div class="auto-progress" id="auto-progress"></div>
     </div>
-
   </div>
 
-  <!-- 인디케이터 -->
   <div class="indicators" id="indicators"></div>
 
-  <!-- 버튼 -->
   <div class="btn-area">
     <a class="blog-btn" id="blogLink" href="#" target="_blank">📄 정책 이야기 살펴보기</a>
     <button class="kakao-btn" onclick="shareKakao()">
@@ -383,14 +382,15 @@
     /* ★★★ 아래를 수정하세요 ★★★ */
 
     var KAKAO_APP_KEY = '74b9b0af38e1d5aaa92bde4901ca4022';
-    var BLOG_URL = '★네이버블로그_글_주소★';
+    var BLOG_URL = 'https://blog.naver.com/bik6107/224213979959';
+    var THUMBNAIL_URL = 'https://i.imgur.com/v7wky3p.png';
 
-    // 이미지 목록 (Imgur 등에 올린 이미지 주소로 변경하세요)
+    // 슬라이더 이미지 목록 (Imgur 등에 올린 이미지 주소로 변경하세요)
     var IMAGES = [
-      'https://i.imgur.com/Y8b9pTc.png',   // 이미지1 - 주소를 변경하세요
-      'https://i.imgur.com/AihKCgk.png',    // 이미지2 - 주소를 변경하세요
-      'https://i.imgur.com/xTdNeeb.png',    // 이미지3 - 주소를 변경하세요
-      'https://i.imgur.com/V0Txsa6.png',    // 이미지4 - 주소를 변경하세요
+      'https://i.imgur.com/mrq4FS0.png',   // 이미지1
+      'https://i.imgur.com/vInRxYm.png',    // 이미지2
+      'https://i.imgur.com/mrq4FS0.png',    // 이미지3
+      'https://i.imgur.com/vInRxYm.png',    // 이미지4
     ];
 
     /* ★★★ 여기까지 수정 ★★★ */
@@ -398,18 +398,14 @@
     var currentSlide = 0;
     var currentEffect = 'slide';
     var autoTimer = null;
-    var autoProgressTimer = null;
     var total = IMAGES.length;
 
-    // 블로그 링크
     if (BLOG_URL && !BLOG_URL.startsWith('★')) {
       document.getElementById('blogLink').href = BLOG_URL;
     }
 
-    // SDK 초기화
     try { if (!Kakao.isInitialized()) Kakao.init(KAKAO_APP_KEY); } catch(e) {}
 
-    // ===== 초기화 =====
     function init() {
       buildSlide();
       buildCube();
@@ -418,7 +414,7 @@
       updateIndicators();
     }
 
-    // ===== 슬라이드 =====
+    // 슬라이드
     function buildSlide() {
       var track = document.getElementById('slide-track');
       track.innerHTML = IMAGES.map(function(src) {
@@ -434,10 +430,9 @@
       updateIndicators();
     }
 
-    // ===== 3D 큐브 =====
+    // 3D 큐브
     function buildCube() {
       var scene = document.getElementById('cube-scene');
-      var w = '100%';
       scene.innerHTML = IMAGES.map(function(src, i) {
         return '<div class="cube-face" style="transform:rotateY(' + (i * 90) + 'deg) translateZ(250px)"><img src="' + src + '"></div>';
       }).join('');
@@ -451,7 +446,7 @@
       updateIndicators();
     }
 
-    // ===== 페이드 =====
+    // 페이드
     function buildFade() {
       var container = document.getElementById('slider-fade');
       var navBtns = container.querySelectorAll('.nav-btn');
@@ -475,7 +470,7 @@
       updateIndicators();
     }
 
-    // ===== 자동재생 =====
+    // 자동재생
     function buildAuto() {
       var container = document.getElementById('slider-auto');
       var progress = document.getElementById('auto-progress');
@@ -522,7 +517,7 @@
       if (autoTimer) clearInterval(autoTimer);
     }
 
-    // ===== 효과 전환 =====
+    // 효과 전환
     function switchEffect(effect) {
       stopAuto();
       currentSlide = 0;
@@ -558,7 +553,7 @@
       updateIndicators();
     }
 
-    // ===== 인디케이터 =====
+    // 인디케이터
     function updateIndicators() {
       var html = '';
       for (var i = 0; i < total; i++) {
@@ -611,23 +606,26 @@
         alert('카카오 SDK가 준비되지 않았습니다.');
         return;
       }
+
+      var shareImage = (THUMBNAIL_URL && !THUMBNAIL_URL.startsWith('★')) ? THUMBNAIL_URL : IMAGES[0];
+      var shareUrl = (BLOG_URL && !BLOG_URL.startsWith('★')) ? BLOG_URL : window.location.href;
+
       try {
         Kakao.Share.sendDefault({
           objectType: 'feed',
           content: {
             title: '여수 관광4.0 - 그랜드스트림',
             description: '체류형 관광도시 대전환 - 여수시장 예비후보 백인숙',
-            imageUrl: IMAGES[0],
-            imageWidth: 800,
-            imageHeight: 1200,
-            link: { mobileWebUrl: BLOG_URL, webUrl: BLOG_URL }
+            imageUrl: shareImage,
+            imageWidth: 1200,
+            imageHeight: 630,
+            link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
           },
-          buttons: [{ title: '정책 이야기 살펴보기', link: { mobileWebUrl: BLOG_URL, webUrl: BLOG_URL } }]
+          buttons: [{ title: '정책 이야기 살펴보기', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }]
         });
       } catch (e) { alert('공유 오류: ' + e.message); }
     }
 
-    // 시작
     init();
   </script>
 
