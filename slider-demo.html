@@ -27,7 +27,6 @@
       overflow-x: hidden;
     }
 
-    /* ★★ [초기 화면 레이아웃] 전체를 세로 중앙 정렬 ★★ */
     .page-wrap {
       min-height: 100vh;
       display: flex;
@@ -83,7 +82,6 @@
       border-color: #fee500;
     }
 
-    /* ★★ [이미지 영역] flex:1로 남은 공간을 채워서 정중앙 배치 ★★ */
     .slider-wrapper {
       max-width: 500px;
       width: 100%;
@@ -96,13 +94,12 @@
       justify-content: center;
     }
 
-    /* 공통 슬라이더 컨테이너 - aspect-ratio 제거, 높이를 자동 계산 */
-    .slider-slide, .slider-cube, .slider-fade, .slider-auto {
+    .slider-slide, .slider-fade, .slider-auto {
       position: relative;
       border-radius: 12px;
       overflow: hidden;
       width: 100%;
-      height: calc(100vh - 200px); /* ★★ [이미지 높이] 화면에서 헤더/탭/버튼 영역을 뺀 높이 ★★ */
+      height: calc(100vh - 200px);
       max-height: 75vh;
       background: #1a2a3a;
     }
@@ -119,8 +116,8 @@
       min-width: 100%;
       height: 100%;
       display: flex;
-      align-items: center;     /* ★★ [정중앙 - 세로] ★★ */
-      justify-content: center; /* ★★ [정중앙 - 가로] ★★ */
+      align-items: center;
+      justify-content: center;
     }
 
     .slider-slide .slide-item img {
@@ -132,39 +129,7 @@
       display: block;
     }
 
-    /* ★★ [큐브 회전속도] 아래 1.5s를 변경 (예: 2.5s = 더 느리게) ★★ */
-    .slider-cube {
-      perspective: 1200px;
-    }
-
-    .cube-scene {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* ★★ [큐브 회전속도] ★★ */
-    }
-
-    .cube-face {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .cube-face img {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      display: block;
-    }
-
-    /* ★★ [페이드 전환속도] 아래 1.5s를 변경 ★★ */
+    /* ★★ [페이드 전환속도] 아래 2.5s를 변경 ★★ */
     .slider-fade .fade-item {
       position: absolute;
       top: 0; left: 0;
@@ -188,7 +153,7 @@
       display: block;
     }
 
-    /* ★★ [자동재생 전환속도] 아래 1.2s를 변경 ★★ */
+    /* ★★ [자동재생 전환속도] 아래 2.0s를 변경 ★★ */
     .slider-auto .auto-item {
       position: absolute;
       top: 0; left: 0;
@@ -358,7 +323,8 @@
 
     <div class="effect-tabs">
       <button class="tab-btn active" onclick="switchEffect('slide')">슬라이드</button>
-      <button class="tab-btn" onclick="switchEffect('cube')">3D 큐브</button>
+      <!-- ★★ [큐브 주석처리] 큐브 버튼 비활성화 ★★ -->
+      <!-- <button class="tab-btn" onclick="switchEffect('cube')">3D 큐브</button> -->
       <button class="tab-btn" onclick="switchEffect('fade')">페이드</button>
       <button class="tab-btn" onclick="switchEffect('auto')">자동재생</button>
     </div>
@@ -371,12 +337,15 @@
         <button class="nav-btn next" onclick="slideNav(1)">❯</button>
       </div>
 
+      <!-- ★★ [큐브 주석처리] 큐브 HTML 비활성화 ★★ -->
+      <!--
       <div class="slider-cube hidden" id="slider-cube">
         <div class="counter"><span id="cube-counter">1</span> / <span id="cube-total"></span></div>
         <div class="cube-scene" id="cube-scene"></div>
         <button class="nav-btn prev" onclick="cubeNav(-1)">❮</button>
         <button class="nav-btn next" onclick="cubeNav(1)">❯</button>
       </div>
+      -->
 
       <div class="slider-fade hidden" id="slider-fade">
         <div class="counter"><span id="fade-counter">1</span> / <span id="fade-total"></span></div>
@@ -413,6 +382,7 @@
     var THUMBNAIL_URL = 'https://i.imgur.com/Pu5APiK.png';
 
     var IMAGES = [
+      'https://i.imgur.com/gNRVYF5.png',
       'https://i.imgur.com/DNLdlT7.png',
       'https://i.imgur.com/a0RgtaG.png',
       'https://i.imgur.com/vvkCdTg.png',
@@ -430,7 +400,6 @@
     var slideAutoTimer = null;
     var total = IMAGES.length;
     var isSlideAnimating = false;
-    var cubeAngle = 0;
 
     if (BLOG_URL && !BLOG_URL.startsWith('★')) {
       document.getElementById('blogLink').href = BLOG_URL;
@@ -440,14 +409,14 @@
 
     function init() {
       buildSlide();
-      buildCube();
+      /* buildCube(); ★★ [큐브 주석처리] ★★ */
       buildFade();
       buildAuto();
       updateIndicators();
       startSlideAuto();
     }
 
-    // ===== 슬라이드 (1→2→3→4→1 자연스러운 루프) =====
+    // ===== 슬라이드 (1→2→...→7→1 자연스러운 루프) =====
     function buildSlide() {
       var track = document.getElementById('slide-track');
       var html = IMAGES.map(function(src) {
@@ -511,13 +480,12 @@
     function stopSlideAuto() { if (slideAutoTimer) clearInterval(slideAutoTimer); }
     function resetSlideAuto() { stopSlideAuto(); startSlideAuto(); }
 
-    // ===== 3D 큐브 (1→2→3→4→1 자연스러운 루프) =====
+    /* ★★ [큐브 주석처리] 큐브 관련 코드 전체 비활성화 ★★
     function buildCube() {
       var scene = document.getElementById('cube-scene');
       var container = document.getElementById('slider-cube');
       var w = container.offsetWidth || 400;
       var tz = w / 2;
-      // 4면 큐브: 0도, 90도, 180도, 270도
       scene.innerHTML = IMAGES.map(function(src, i) {
         return '<div class="cube-face" style="transform:rotateY(' + (i * 90) + 'deg) translateZ(' + tz + 'px)"><img src="' + src + '"></div>';
       }).join('');
@@ -527,10 +495,8 @@
     }
 
     function cubeNav(dir) {
-      // 항상 같은 방향으로 90도씩 회전 → 자연스러운 루프
       cubeAngle += dir * 90;
       document.getElementById('cube-scene').style.transform = 'rotateY(' + (-cubeAngle) + 'deg)';
-
       if (dir === 1) {
         currentSlide = (currentSlide + 1) % total;
       } else {
@@ -539,6 +505,7 @@
       document.getElementById('cube-counter').textContent = currentSlide + 1;
       updateIndicators();
     }
+    ★★ [큐브 주석처리 끝] ★★ */
 
     // ===== 페이드 =====
     function buildFade() {
@@ -620,7 +587,7 @@
       event.target.classList.add('active');
 
       document.getElementById('slider-slide').classList.toggle('hidden', effect !== 'slide');
-      document.getElementById('slider-cube').classList.toggle('hidden', effect !== 'cube');
+      /* document.getElementById('slider-cube').classList.toggle('hidden', effect !== 'cube'); ★★ [큐브 주석처리] ★★ */
       document.getElementById('slider-fade').classList.toggle('hidden', effect !== 'fade');
       document.getElementById('slider-auto').classList.toggle('hidden', effect !== 'auto');
 
@@ -630,8 +597,10 @@
         track.style.transform = 'translateX(0)';
         document.getElementById('slide-counter').textContent = 1;
         startSlideAuto();
+      /* ★★ [큐브 주석처리] ★★
       } else if (effect === 'cube') {
         buildCube();
+      */
       } else if (effect === 'fade') {
         document.querySelectorAll('#slider-fade .fade-item').forEach(function(item, i) {
           item.classList.toggle('active', i === 0);
@@ -668,11 +637,13 @@
         track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
         document.getElementById('slide-counter').textContent = currentSlide + 1;
         resetSlideAuto();
+      /* ★★ [큐브 주석처리] ★★
       } else if (currentEffect === 'cube') {
         var diff = index - prevSlide;
         cubeAngle += diff * 90;
         document.getElementById('cube-scene').style.transform = 'rotateY(' + (-cubeAngle) + 'deg)';
         document.getElementById('cube-counter').textContent = currentSlide + 1;
+      */
       } else if (currentEffect === 'fade') {
         var items = document.querySelectorAll('#slider-fade .fade-item');
         items[prevSlide].classList.remove('active');
@@ -695,7 +666,7 @@
       if (Math.abs(diff) > 50) {
         var dir = diff > 0 ? 1 : -1;
         if (currentEffect === 'slide') slideNav(dir);
-        else if (currentEffect === 'cube') cubeNav(dir);
+        /* else if (currentEffect === 'cube') cubeNav(dir); ★★ [큐브 주석처리] ★★ */
         else if (currentEffect === 'fade') fadeNav(dir);
       }
     });
