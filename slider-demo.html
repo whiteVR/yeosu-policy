@@ -9,10 +9,10 @@
   <meta property="og:type" content="article" />
   <meta property="og:title" content="여수 관광4.0 - 그랜드스트림" />
   <meta property="og:description" content="체류형 관광도시 대전환 - 여수시장 예비후보 백인숙" />
-  <meta property="og:image" content="https://i.imgur.com/v7wky3p.png" />
-  <meta property="og:image:width" content="1088" />
-  <meta property="og:image:height" content="570" />
-  <meta property="og:url" content="https://blog.naver.com/bik6107/224213979959" />
+  <meta property="og:image" content="★Imgur_썸네일_이미지_주소★" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="★네이버블로그_글_주소★" />
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
@@ -80,41 +80,44 @@
       position: relative;
     }
 
-    /* 효과 1: 슬라이드 */
-    .slider-slide {
+    /* 공통 슬라이더 컨테이너 */
+    .slider-slide, .slider-cube, .slider-fade, .slider-auto {
       position: relative;
-      overflow: hidden;
       border-radius: 16px;
+      overflow: hidden;
       aspect-ratio: 9/16;
-      max-height: 70vh;
+      max-height: 75vh;
+      background: #1a2a3a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
+    /* 효과 1: 슬라이드 */
     .slider-slide .slide-track {
       display: flex;
       transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
       height: 100%;
+      width: 100%;
     }
 
     .slider-slide .slide-item {
       min-width: 100%;
       height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .slider-slide .slide-item img {
       width: 100%;
       height: 100%;
       object-fit: contain;
-      background: #1a2a3a;
     }
 
-    /* 효과 2: 3D 큐브 */
+    /* 효과 2: 3D 큐브 - 천천히 회전 */
     .slider-cube {
       perspective: 1200px;
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      aspect-ratio: 9/16;
-      max-height: 70vh;
     }
 
     .cube-scene {
@@ -122,7 +125,7 @@
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     .cube-face {
@@ -130,31 +133,28 @@
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .cube-face img {
       width: 100%;
       height: 100%;
       object-fit: contain;
-      background: #1a2a3a;
     }
 
-    /* 효과 3: 페이드 */
-    .slider-fade {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      aspect-ratio: 9/16;
-      max-height: 70vh;
-    }
-
+    /* 효과 3: 페이드 - 더 길게 */
     .slider-fade .fade-item {
       position: absolute;
       top: 0; left: 0;
       width: 100%;
       height: 100%;
       opacity: 0;
-      transition: opacity 0.8s ease;
+      transition: opacity 1.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .slider-fade .fade-item.active {
@@ -165,26 +165,20 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      background: #1a2a3a;
     }
 
     /* 효과 4: 자동재생 */
-    .slider-auto {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      aspect-ratio: 9/16;
-      max-height: 70vh;
-    }
-
     .slider-auto .auto-item {
       position: absolute;
       top: 0; left: 0;
       width: 100%;
       height: 100%;
       opacity: 0;
-      transform: scale(1.05);
-      transition: opacity 1s ease, transform 4s ease;
+      transform: scale(1.03);
+      transition: opacity 1.2s ease, transform 5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .slider-auto .auto-item.active {
@@ -196,7 +190,6 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      background: #1a2a3a;
     }
 
     .auto-progress {
@@ -316,6 +309,28 @@
     .kakao-btn:hover { background: #f0d900; }
 
     .hidden { display: none !important; }
+
+    /* 모바일 최적화 */
+    @media (max-width: 480px) {
+      .slider-wrapper {
+        padding: 0 8px;
+      }
+      .slider-slide, .slider-cube, .slider-fade, .slider-auto {
+        max-height: 80vh;
+        border-radius: 12px;
+      }
+      .header h1 {
+        font-size: 18px;
+      }
+      .effect-tabs {
+        gap: 6px;
+        padding: 12px 8px;
+      }
+      .tab-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -333,7 +348,6 @@
   </div>
 
   <div class="slider-wrapper">
-    <!-- 효과 1: 슬라이드 -->
     <div class="slider-slide" id="slider-slide">
       <div class="counter"><span id="slide-counter">1</span> / <span id="slide-total"></span></div>
       <div class="slide-track" id="slide-track"></div>
@@ -341,7 +355,6 @@
       <button class="nav-btn next" onclick="slideNav(1)">❯</button>
     </div>
 
-    <!-- 효과 2: 3D 큐브 -->
     <div class="slider-cube hidden" id="slider-cube">
       <div class="counter"><span id="cube-counter">1</span> / <span id="cube-total"></span></div>
       <div class="cube-scene" id="cube-scene"></div>
@@ -349,14 +362,12 @@
       <button class="nav-btn next" onclick="cubeNav(1)">❯</button>
     </div>
 
-    <!-- 효과 3: 페이드 -->
     <div class="slider-fade hidden" id="slider-fade">
       <div class="counter"><span id="fade-counter">1</span> / <span id="fade-total"></span></div>
       <button class="nav-btn prev" onclick="fadeNav(-1)">❮</button>
       <button class="nav-btn next" onclick="fadeNav(1)">❯</button>
     </div>
 
-    <!-- 효과 4: 자동재생 -->
     <div class="slider-auto hidden" id="slider-auto">
       <div class="counter"><span id="auto-counter">1</span> / <span id="auto-total"></span></div>
       <div class="auto-progress" id="auto-progress"></div>
@@ -375,24 +386,22 @@
     </button>
   </div>
 
-  <!-- 카카오 SDK -->
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
 
   <script>
     /* ★★★ 아래를 수정하세요 ★★★ */
 
     var KAKAO_APP_KEY = '74b9b0af38e1d5aaa92bde4901ca4022';
-    var BLOG_URL = 'https://blog.naver.com/bik6107/224213979959';
-    var THUMBNAIL_URL = 'https://i.imgur.com/v7wky3p.png';
+    var BLOG_URL = '★네이버블로그_글_주소★';
+    var THUMBNAIL_URL = '★Imgur_썸네일_이미지_주소★';
 
-    // 슬라이더 이미지 목록 (Imgur 등에 올린 이미지 주소로 변경하세요)
     var IMAGES = [
-      'https://i.imgur.com/Y8b9pTc.png',   // 이미지1
-      'https://i.imgur.com/AihKCgk.png',    // 이미지2
-      'https://i.imgur.com/xTdNeeb.png',    // 이미지3
-      'https://i.imgur.com/V0Txsa6.png',    // 이미지4
-      'https://i.imgur.com/v7wky3p.png',    // 이미지5
-      'https://i.imgur.com/dKubqHK.png',    // 이미지6
+      'https://i.imgur.com/mrq4FS0.png',   // 이미지1
+      'https://i.imgur.com/vInRxYm.png',    // 이미지2
+      'https://i.imgur.com/mrq4FS0.png',    // 이미지3
+      'https://i.imgur.com/vInRxYm.png',    // 이미지4
+      'https://i.imgur.com/mrq4FS0.png',    // 이미지5
+      'https://i.imgur.com/vInRxYm.png',    // 이미지6
     ];
 
     /* ★★★ 여기까지 수정 ★★★ */
@@ -400,6 +409,7 @@
     var currentSlide = 0;
     var currentEffect = 'slide';
     var autoTimer = null;
+    var slideAutoTimer = null;
     var total = IMAGES.length;
 
     if (BLOG_URL && !BLOG_URL.startsWith('★')) {
@@ -414,9 +424,10 @@
       buildFade();
       buildAuto();
       updateIndicators();
+      startSlideAuto();
     }
 
-    // 슬라이드
+    // ===== 슬라이드 (연속 자동 재생) =====
     function buildSlide() {
       var track = document.getElementById('slide-track');
       track.innerHTML = IMAGES.map(function(src) {
@@ -430,25 +441,51 @@
       document.getElementById('slide-track').style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
       document.getElementById('slide-counter').textContent = currentSlide + 1;
       updateIndicators();
+      resetSlideAuto();
     }
 
-    // 3D 큐브
+    function startSlideAuto() {
+      stopSlideAuto();
+      slideAutoTimer = setInterval(function() {
+        if (currentEffect === 'slide') {
+          currentSlide = (currentSlide + 1) % total;
+          document.getElementById('slide-track').style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+          document.getElementById('slide-counter').textContent = currentSlide + 1;
+          updateIndicators();
+        }
+      }, 4000);
+    }
+
+    function stopSlideAuto() {
+      if (slideAutoTimer) clearInterval(slideAutoTimer);
+    }
+
+    function resetSlideAuto() {
+      stopSlideAuto();
+      startSlideAuto();
+    }
+
+    // ===== 3D 큐브 (천천히 회전) =====
     function buildCube() {
       var scene = document.getElementById('cube-scene');
+      var container = document.getElementById('slider-cube');
+      var w = container.offsetWidth || 400;
+      var tz = w / 2;
       scene.innerHTML = IMAGES.map(function(src, i) {
-        return '<div class="cube-face" style="transform:rotateY(' + (i * 90) + 'deg) translateZ(250px)"><img src="' + src + '"></div>';
+        return '<div class="cube-face" style="transform:rotateY(' + (i * (360/total)) + 'deg) translateZ(' + tz + 'px)"><img src="' + src + '"></div>';
       }).join('');
       document.getElementById('cube-total').textContent = total;
     }
 
     function cubeNav(dir) {
       currentSlide = (currentSlide + dir + total) % total;
-      document.getElementById('cube-scene').style.transform = 'rotateY(' + (-currentSlide * 90) + 'deg)';
+      var angle = -currentSlide * (360 / total);
+      document.getElementById('cube-scene').style.transform = 'rotateY(' + angle + 'deg)';
       document.getElementById('cube-counter').textContent = currentSlide + 1;
       updateIndicators();
     }
 
-    // 페이드
+    // ===== 페이드 (느린 전환) =====
     function buildFade() {
       var container = document.getElementById('slider-fade');
       var navBtns = container.querySelectorAll('.nav-btn');
@@ -472,7 +509,7 @@
       updateIndicators();
     }
 
-    // 자동재생
+    // ===== 자동재생 =====
     function buildAuto() {
       var container = document.getElementById('slider-auto');
       var progress = document.getElementById('auto-progress');
@@ -489,7 +526,7 @@
 
     function startAuto() {
       stopAuto();
-      var duration = 3000;
+      var duration = 4000;
       var progressEl = document.getElementById('auto-progress');
       progressEl.style.transition = 'none';
       progressEl.style.width = '0%';
@@ -519,9 +556,10 @@
       if (autoTimer) clearInterval(autoTimer);
     }
 
-    // 효과 전환
+    // ===== 효과 전환 =====
     function switchEffect(effect) {
       stopAuto();
+      stopSlideAuto();
       currentSlide = 0;
       currentEffect = effect;
 
@@ -536,7 +574,9 @@
       if (effect === 'slide') {
         document.getElementById('slide-track').style.transform = 'translateX(0)';
         document.getElementById('slide-counter').textContent = 1;
+        startSlideAuto();
       } else if (effect === 'cube') {
+        buildCube();
         document.getElementById('cube-scene').style.transform = 'rotateY(0)';
         document.getElementById('cube-counter').textContent = 1;
       } else if (effect === 'fade') {
@@ -555,7 +595,7 @@
       updateIndicators();
     }
 
-    // 인디케이터
+    // ===== 인디케이터 =====
     function updateIndicators() {
       var html = '';
       for (var i = 0; i < total; i++) {
@@ -571,8 +611,10 @@
       if (currentEffect === 'slide') {
         document.getElementById('slide-track').style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
         document.getElementById('slide-counter').textContent = currentSlide + 1;
+        resetSlideAuto();
       } else if (currentEffect === 'cube') {
-        document.getElementById('cube-scene').style.transform = 'rotateY(' + (-currentSlide * 90) + 'deg)';
+        var angle = -currentSlide * (360 / total);
+        document.getElementById('cube-scene').style.transform = 'rotateY(' + angle + 'deg)';
         document.getElementById('cube-counter').textContent = currentSlide + 1;
       } else if (currentEffect === 'fade') {
         var items = document.querySelectorAll('#slider-fade .fade-item');
