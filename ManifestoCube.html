@@ -252,10 +252,10 @@
       resetCubeAuto();
     }
 
-    /* ★★ [자동재생 시간] 2000 = 2초마다 자동 회전 ★★ */
+    /* ★★ [자동재생 시간] 5000 = 5초마다 자동 회전 ★★ */
     function startCubeAuto() {
       stopCubeAuto();
-      cubeAutoTimer = setInterval(function() { cubeNav(1); }, 2000);
+      cubeAutoTimer = setInterval(function() { cubeNav(1); }, 5000);
     }
     function stopCubeAuto() { if (cubeAutoTimer) clearInterval(cubeAutoTimer); }
     function resetCubeAuto() { stopCubeAuto(); startCubeAuto(); }
