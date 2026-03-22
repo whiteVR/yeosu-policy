@@ -47,12 +47,12 @@
     .slider-cube {
       position: relative;
       border-radius: 12px;
-      overflow: hidden;
       width: 100%;
       height: calc(100vh - 100px);
       max-height: 85vh;
-      background: #1a2a3a;
-      perspective: 1200px;
+      background: #0f1923;
+      perspective: 2000px;
+      overflow: visible; /* ★★ 이미지 잘림 방지 ★★ */
     }
 
     .cube-scene {
@@ -71,6 +71,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 10px;
     }
 
     .cube-face img {
@@ -80,6 +81,7 @@
       height: auto;
       object-fit: contain;
       display: block;
+      border-radius: 8px;
     }
 
     .nav-btn {
@@ -215,24 +217,30 @@
     /* ★★★ 여기까지 수정 ★★★ */
 
     var currentSlide = 0;
-    var total = IMAGES.length; // 8장
+    var total = IMAGES.length;
     var cubeAngle = 0;
     var cubeAutoTimer = null;
-    var FACE_ANGLE = 45; // ★★ 8장 = 360/8 = 45도씩 회전 ★★
+    var FACE_ANGLE = 360 / total; // 8장 = 45도
 
     try { if (!Kakao.isInitialized()) Kakao.init(KAKAO_APP_KEY); } catch(e) {}
 
     function init() {
-      buildCube();
-      updateIndicators();
-      startCubeAuto();
+      // 컨테이너 크기가 확정된 후 빌드
+      setTimeout(function() {
+        buildCube();
+        updateIndicators();
+        startCubeAuto();
+      }, 100);
     }
 
     function buildCube() {
       var scene = document.getElementById('cube-scene');
       var container = document.getElementById('slider-cube');
-      var w = container.offsetWidth || 400;
-      var tz = w / (2 * Math.tan(Math.PI / total)); // 정다각형 translateZ 계산
+      var w = container.offsetWidth;
+
+      // 정다각형 내접원 반지름 계산 (이미지가 잘리지 않도록)
+      var tz = Math.round(w / (2 * Math.tan(Math.PI / total)));
+
       scene.innerHTML = IMAGES.map(function(src, i) {
         return '<div class="cube-face" style="transform:rotateY(' + (i * FACE_ANGLE) + 'deg) translateZ(' + tz + 'px)"><img src="' + src + '"></div>';
       }).join('');
@@ -277,6 +285,17 @@
       updateIndicators();
       resetCubeAuto();
     }
+
+    // 화면 리사이즈 시 큐브 재빌드
+    window.addEventListener('resize', function() {
+      buildCube();
+      cubeAngle = currentSlide * FACE_ANGLE;
+      document.getElementById('cube-scene').style.transition = 'none';
+      document.getElementById('cube-scene').style.transform = 'rotateY(' + (-cubeAngle) + 'deg)';
+      setTimeout(function() {
+        document.getElementById('cube-scene').style.transition = 'transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      }, 50);
+    });
 
     var touchStartX = 0;
     document.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; });
