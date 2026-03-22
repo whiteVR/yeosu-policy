@@ -60,7 +60,7 @@
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* ★★ [큐브 회전속도] ★★ */
+      transition: transform 1.25s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* ★★ [큐브 회전속도] ★★ */
     }
 
     .cube-face {
@@ -71,7 +71,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 30px;
+      padding: 50px;
     }
 
     .cube-face img {
@@ -293,7 +293,7 @@
       document.getElementById('cube-scene').style.transition = 'none';
       document.getElementById('cube-scene').style.transform = 'rotateY(' + (-cubeAngle) + 'deg)';
       setTimeout(function() {
-        document.getElementById('cube-scene').style.transition = 'transform 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        document.getElementById('cube-scene').style.transition = 'transform 1.25s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
       }, 50);
     });
 
