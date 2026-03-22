@@ -272,10 +272,10 @@
       resetSlideAuto();
     }
 
-    /* ★★ [자동재생 시간] 2000 = 2초 ★★ */
+    /* ★★ [자동재생 시간] 5000 = 5초 ★★ */
     function startSlideAuto() {
       stopSlideAuto();
-      slideAutoTimer = setInterval(function() { slideNav(1); }, 2000);
+      slideAutoTimer = setInterval(function() { slideNav(1); }, 5000);
     }
     function stopSlideAuto() { if (slideAutoTimer) clearInterval(slideAutoTimer); }
     function resetSlideAuto() { stopSlideAuto(); startSlideAuto(); }
