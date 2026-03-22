@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>강하고 진실한 백인숙 - 정책공약</title>
+
+  <!-- OG 태그 (썸네일 1088x570) -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="[강하고 진실한 백인숙]" />
+  <meta property="og:description" content="백인숙의 정책공약 : 백인숙이 해내겠습니다!" />
+  <meta property="og:image" content="https://i.imgur.com/zbAd7sf.png" />
+  <meta property="og:image:width" content="1088" />
+  <meta property="og:image:height" content="570" />
+  <meta property="og:url" content="https://blog.naver.com/bik6107/224213979959" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0f1923;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .page-wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slider-wrapper {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 8px 8px 0;
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slider-slide {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      width: 100%;
+      height: calc(100vh - 100px);
+      max-height: 85vh;
+      background: #1a2a3a;
+    }
+
+    .slider-slide .slide-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      height: 100%;
+      width: 100%;
+    }
+
+    .slider-slide .slide-item {
+      min-width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slider-slide .slide-item img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .nav-btn:hover { background: rgba(0,0,0,0.8); }
+    .nav-btn.prev { left: 6px; }
+    .nav-btn.next { right: 6px; }
+
+    .indicators {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px;
+      flex-shrink: 0;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2a3a4a;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .dot.active {
+      background: #fee500;
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    .counter {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      color: #fff;
+      z-index: 10;
+    }
+
+    .btn-area {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 4px 16px 20px;
+      flex-shrink: 0;
+    }
+
+    .kakao-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: #FEE500;
+      color: #191919;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Noto Sans KR', sans-serif;
+      transition: background 0.2s;
+    }
+    .kakao-btn:hover { background: #f0d900; }
+
+    @media (max-width: 480px) {
+      .btn-area { padding: 4px 12px 16px; }
+      .kakao-btn { padding: 12px 20px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrap">
+    <div class="slider-wrapper">
+      <div class="slider-slide" id="slider-slide">
+        <div class="counter"><span id="slide-counter">1</span> / <span id="slide-total"></span></div>
+        <div class="slide-track" id="slide-track"></div>
+        <button class="nav-btn prev" onclick="slideNav(-1)">❮</button>
+        <button class="nav-btn next" onclick="slideNav(1)">❯</button>
+      </div>
+    </div>
+
+    <div class="indicators" id="indicators"></div>
+
+    <div class="btn-area">
+      <button class="kakao-btn" onclick="shareKakao()">
+        <svg viewBox="0 0 24 24" fill="#191919" width="20" height="20">
+          <path d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.88 5.32 4.71 6.73-.17.6-.63 2.19-.72 2.53-.12.42.15.41.32.3.13-.09 2.09-1.38 2.94-1.94.57.08 1.16.13 1.75.13 5.52 0 10-3.58 10-8s-4.48-8-10-8z"/>
+        </svg>
+        카카오톡으로 공유하기
+      </button>
+    </div>
+  </div>
+
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
+  <script>
+    /* ★★★ 아래를 수정하세요 ★★★ */
+    var KAKAO_APP_KEY = '74b9b0af38e1d5aaa92bde4901ca4022';
+    var BLOG_URL = 'https://blog.naver.com/bik6107/224213979959';
+    var THUMBNAIL_URL = 'https://i.imgur.com/zbAd7sf.png';
+
+    var IMAGES = [
+      'https://i.imgur.com/OUBdKVM.png',
+      'https://i.imgur.com/17NRC2n.png',
+      'https://i.imgur.com/zdlXkAI.png',
+      'https://i.imgur.com/B87HMHX.png',
+      'https://i.imgur.com/6RKsRk8.png',
+      'https://i.imgur.com/XngC80K.png',
+      'https://i.imgur.com/8d8woFh.png',
+      'https://i.imgur.com/1humtkk.png',
+    ];
+    /* ★★★ 여기까지 수정 ★★★ */
+
+    var currentSlide = 0;
+    var total = IMAGES.length;
+    var isSlideAnimating = false;
+    var slideAutoTimer = null;
+
+    try { if (!Kakao.isInitialized()) Kakao.init(KAKAO_APP_KEY); } catch(e) {}
+
+    function init() {
+      buildSlide();
+      updateIndicators();
+      startSlideAuto();
+    }
+
+    function buildSlide() {
+      var track = document.getElementById('slide-track');
+      var html = IMAGES.map(function(src) {
+        return '<div class="slide-item"><img src="' + src + '"></div>';
+      }).join('');
+      html += '<div class="slide-item"><img src="' + IMAGES[0] + '"></div>';
+      track.innerHTML = html;
+      document.getElementById('slide-total').textContent = total;
+    }
+
+    function slideNav(dir) {
+      if (isSlideAnimating) return;
+      var track = document.getElementById('slide-track');
+      if (dir === 1) {
+        currentSlide++;
+        track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+        track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+        if (currentSlide === total) {
+          isSlideAnimating = true;
+          setTimeout(function() {
+            track.style.transition = 'none';
+            currentSlide = 0;
+            track.style.transform = 'translateX(0)';
+            isSlideAnimating = false;
+          }, 520);
+        }
+      } else {
+        if (currentSlide === 0) {
+          isSlideAnimating = true;
+          track.style.transition = 'none';
+          currentSlide = total;
+          track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+          setTimeout(function() {
+            currentSlide = total - 1;
+            track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+            track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+            isSlideAnimating = false;
+          }, 30);
+        } else {
+          currentSlide--;
+          track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+          track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+        }
+      }
+      var displaySlide = currentSlide >= total ? 0 : currentSlide;
+      document.getElementById('slide-counter').textContent = displaySlide + 1;
+      updateIndicators(displaySlide);
+      resetSlideAuto();
+    }
+
+    /* ★★ [자동재생 시간] 2000 = 2초 ★★ */
+    function startSlideAuto() {
+      stopSlideAuto();
+      slideAutoTimer = setInterval(function() { slideNav(1); }, 2000);
+    }
+    function stopSlideAuto() { if (slideAutoTimer) clearInterval(slideAutoTimer); }
+    function resetSlideAuto() { stopSlideAuto(); startSlideAuto(); }
+
+    function updateIndicators(overrideIndex) {
+      var activeIndex = (overrideIndex !== undefined) ? overrideIndex : currentSlide;
+      if (activeIndex >= total) activeIndex = 0;
+      var html = '';
+      for (var i = 0; i < total; i++) {
+        html += '<div class="dot ' + (i === activeIndex ? 'active' : '') + '" onclick="goToSlide(' + i + ')"></div>';
+      }
+      document.getElementById('indicators').innerHTML = html;
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      var track = document.getElementById('slide-track');
+      track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+      track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+      document.getElementById('slide-counter').textContent = currentSlide + 1;
+      updateIndicators();
+      resetSlideAuto();
+    }
+
+    var touchStartX = 0;
+    document.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', function(e) {
+      var diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) slideNav(diff > 0 ? 1 : -1);
+    });
+
+    function shareKakao() {
+      if (typeof Kakao === 'undefined' || !Kakao.isInitialized()) { alert('카카오 SDK가 준비되지 않았습니다.'); return; }
+      var shareImage = THUMBNAIL_URL || IMAGES[0];
+      var shareUrl = BLOG_URL || window.location.href;
+      try {
+        Kakao.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: '[강하고 진실한 백인숙]',
+            description: '백인숙의 정책공약 : 백인숙이 해내겠습니다!',
+            imageUrl: shareImage, imageWidth: 1088, imageHeight: 570,
+            link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
+          },
+          buttons: [{ title: '정책 이야기 살펴보기', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }]
+        });
+      } catch (e) { alert('공유 오류: ' + e.message); }
+    }
+
+    init();
+  </script>
+</body>
+</html>
